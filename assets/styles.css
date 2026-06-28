@@ -365,13 +365,12 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   object-fit: cover;
   flex-shrink: 0;
   align-self: stretch;
-  object-position: 50% 35%;
-  transform: scale(1.08);
+  object-position: 50% 20%;
   transform-origin: center center;
 }
 
-.photo-jordan  { object-position: 50% 35%; }
-.photo-marlena { object-position: 50% 35%; }
+.photo-jordan  { object-position: 50% 20%; }
+.photo-marlena { object-position: 50% 20%; }
 .photo-hank    { object-position: 50% 45%; }
 
 .profile-body {
