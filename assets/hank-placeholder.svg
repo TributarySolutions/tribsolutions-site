@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-labelledby="title desc">
+  <title id="title">Hank placeholder</title>
+  <desc id="desc">Replace this SVG with Hank's image from the live Google Site.</desc>
+  <rect width="400" height="400" rx="36" fill="#edf4f0"/>
+  <circle cx="148" cy="155" r="40" fill="#2f6652" opacity="0.88"/>
+  <circle cx="252" cy="155" r="40" fill="#2f6652" opacity="0.88"/>
+  <circle cx="200" cy="220" r="92" fill="#2f6652" opacity="0.88"/>
+  <circle cx="168" cy="205" r="10" fill="#ffffff"/>
+  <circle cx="232" cy="205" r="10" fill="#ffffff"/>
+  <path d="M178 250c14 12 30 18 46 0" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+  <text x="200" y="375" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" fill="#21493a" font-weight="700">Hank</text>
+</svg>
