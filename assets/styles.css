@@ -370,7 +370,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 }
 
 .photo-jordan  { object-position: 50% 20%; }
-.photo-marlena { object-position: 50% 50%; }
+.photo-marlena { object-position: 40% 50%; }
 .photo-hank    { object-position: 50% 45%; }
 
 .profile-body {
