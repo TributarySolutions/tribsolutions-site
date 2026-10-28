@@ -51,9 +51,9 @@ not send real messages.
 
 On October 27, 2026, the owner reported successfully receiving an email from
 a real submission through the local contact preview. This confirms the local
-Formspree-to-email path based on the owner's receipt confirmation. The specific
-recipient inbox and delivery to both intended recipients have not yet been
-confirmed. No production-domain submission has been tested, and no deployment
+Formspree-to-email path based on the owner's receipt confirmation. The owner
+subsequently confirmed that **Jordan only** received it. Delivery to Marlena
+remains outstanding. No production-domain submission has been tested, and no deployment
 has been authorized or performed.
 
 ## Dashboard and real delivery checklist
