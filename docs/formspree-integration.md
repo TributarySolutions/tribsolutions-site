@@ -24,8 +24,9 @@ does not deploy anything. For local success/failure simulations, switch only
 The existing handler assigns the form action from validated configuration and
 POSTs `FormData` with `Accept: application/json`. It includes name, email,
 optional organization, message and the supported `_gotcha` honeypot. The
-browser controls the multipart Content-Type boundary. No recipient addresses,
-private tokens or passwords are added to source. Existing CSP already permits
+browser controls the multipart Content-Type boundary. Notification recipients
+are configured in Formspree, not the public client code. No private tokens or
+passwords are added to source. Existing CSP already permits
 connections to Formspree; no policy change was needed.
 
 One handler correction was needed: Formspree's current client recognizes a
@@ -52,20 +53,26 @@ not send real messages.
 On October 27, 2026, the owner reported successfully receiving an email from
 a real submission through the local contact preview. This confirms the local
 Formspree-to-email path based on the owner's receipt confirmation. The owner
-subsequently confirmed that **Jordan only** received it. Delivery to Marlena
-remains outstanding. No production-domain submission has been tested, and no deployment
-has been authorized or performed.
+initially confirmed that **Jordan only** received it.
+
+On October 28, 2026, the owner confirmed the Formspree Email workflow recipient
+and Zoho distribution-list address are both `inquiries@tribsolutions.com`.
+A direct email to that group reached Marlena. A subsequent fresh submission
+through the local contact preview then reached **both Jordan and Marlena**,
+as confirmed by the owner. Local end-to-end delivery to both intended recipients
+is now verified through owner reports. The agent has not independently inspected
+the inboxes or account settings. No production-domain submission has been tested,
+and no deployment has been authorized or performed.
 
 ## Dashboard and real delivery checklist
 
 The local delivery test succeeded as reported above. Complete or confirm these
 remaining account checks before production:
 
-1. The form is activated and its Email workflow uses a verified company Zoho
-   recipient. The owner requested delivery to both principals. Verify which
-   recipients are actually selected; the website cannot configure that.
-   Multiple direct recipients may require a paid plan. No service purchase or
-   mailbox forwarding rule has been made.
+1. **Recipient routing confirmed by the owner:** Formspree sends to
+   `inquiries@tribsolutions.com`, and Zoho distributes to Jordan and Marlena.
+   Retain that distribution list and its membership. No paid multiple-recipient
+   Formspree feature or mailbox forwarding rule is used for this route.
 2. Keep backend spam filtering enabled and retain the honeypot. This custom
    AJAX form has no CAPTCHA token. A form requiring a CAPTCHA challenge needs
    matching backend-verified integration before use; do not assume the
