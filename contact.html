@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self' https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'" />
   <title>Contact | Tributary Solutions</title>
   <meta name="description" content="Contact Tributary Solutions — water resources consulting." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,8 +12,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css" />
   <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="assets/contact.css" />
+  <script src="assets/contact-config.js" defer></script>
+  <script src="assets/contact.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#contact-form">Skip to inquiry form</a>
   <header class="site-header">
     <div class="wrap nav-wrap">
       <a class="brand" href="index.html" aria-label="Tributary Solutions home">
@@ -34,9 +40,69 @@
       <div class="wrap">
         <p class="eyebrow">Get in Touch</p>
         <h1 id="contact-heading">Contact Tributary Solutions</h1>
-        <p>Have a project or question? Use the inquiry form to reach out. We’ll get back to you as soon as possible.</p>
-        <!-- Google Form contact link — replace this URL if the form address changes -->
-        <a class="btn btn-primary" href="https://forms.gle/G4qvmoi2aAMYwonu9">Open Inquiry Form</a>
+        <p>Have a project or question? Tell us a little about what you have in mind.</p>
+      </div>
+    </section>
+
+    <section class="contact-section" aria-labelledby="inquiry-heading">
+      <div class="wrap contact-wrap">
+        <div class="contact-card">
+          <h2 id="inquiry-heading">Start a conversation</h2>
+          <p class="form-intro">Fields marked with an asterisk (*) are required.</p>
+
+          <div id="demo-panel" class="demo-panel" hidden>
+            <p><strong>Demo/Test Mode</strong></p>
+            <p>This is a local simulation. No message will be sent and no form information will be stored externally. Please use sample information.</p>
+            <label for="demo-outcome">Simulated result</label>
+            <select id="demo-outcome">
+              <option value="success">Successful submission</option>
+              <option value="failure">Failed submission</option>
+            </select>
+          </div>
+
+          <noscript><p class="form-notice">JavaScript is required for this form. Please use the Google inquiry form linked below.</p></noscript>
+          <form id="contact-form" method="post" aria-labelledby="inquiry-heading" aria-describedby="privacy-notice" tabindex="-1">
+            <!-- Disabled until the submission handler and configuration are ready. -->
+            <fieldset id="contact-fields" disabled>
+              <legend class="visually-hidden">Your inquiry</legend>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="full-name">Full name <span aria-hidden="true">*</span></label>
+                  <input id="full-name" name="name" type="text" autocomplete="name" required maxlength="100" aria-describedby="name-error" />
+                  <span id="name-error" class="field-error" hidden></span>
+                </div>
+                <div class="form-field">
+                  <label for="email">Email address <span aria-hidden="true">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" aria-describedby="email-error" />
+                  <span id="email-error" class="field-error" hidden></span>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="organization">Organization/company <span class="optional">(optional)</span></label>
+                <input id="organization" name="organization" type="text" autocomplete="organization" maxlength="150" aria-describedby="organization-error" />
+                <span id="organization-error" class="field-error" hidden></span>
+              </div>
+              <div class="form-field">
+                <label for="message">Project description or inquiry <span aria-hidden="true">*</span></label>
+                <p id="message-hint" class="field-hint">A brief overview is a good place to start. Maximum 5,000 characters.</p>
+                <textarea id="message" name="message" rows="6" required maxlength="5000" aria-describedby="message-hint message-error"></textarea>
+                <span id="message-error" class="field-error" hidden></span>
+              </div>
+              <div class="form-trap" aria-hidden="true">
+                <label for="website">Leave this field empty</label>
+                <input id="website" type="text" name="_gotcha" tabindex="-1" autocomplete="off" maxlength="200" />
+              </div>
+              <p id="privacy-notice" class="privacy-notice">Please do not submit confidential or sensitive information. We use your details to respond to your inquiry. When sending is enabled, Formspree processes and stores your submission and forwards a notification to Tributary Solutions.</p>
+              <button id="submit-inquiry" class="btn btn-primary" type="submit">Send inquiry</button>
+            </fieldset>
+            <p id="form-status" class="form-status" role="status" aria-live="polite" aria-atomic="true" tabindex="-1">Preparing the inquiry form. If it does not become available, please use the Google inquiry form below.</p>
+            <button id="new-inquiry" class="text-button" type="button" hidden>Start a new inquiry</button>
+          </form>
+        </div>
+        <p class="contact-fallback">Prefer the existing contact method?
+          <!-- Google Form contact link — keep available throughout testing. -->
+          <a href="https://forms.gle/G4qvmoi2aAMYwonu9">Open the Google inquiry form</a>.
+        </p>
       </div>
     </section>
   </main>
