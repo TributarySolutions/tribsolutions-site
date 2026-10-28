@@ -1,110 +1,61 @@
 # Tributary Solutions
 
-Static HTML/CSS website hosted on GitHub Pages at
-[www.tribsolutions.com](https://www.tribsolutions.com).
+Static website for Tributary Solutions, LLC — water resources consulting.
 
-The repository's production branch is `main`; the original repository
-instructions indicate that pushes to `main` deploy automatically. Treat a
-merge/push to that branch as a production release.
+## Live site
 
-## Design refinement preview
+[www.tribsolutions.com](https://www.tribsolutions.com)
 
-Current work is on `feature/design-refinements`, based on the completed
-contact-form commit `849d113`. Production and the contact-form branch are
-unchanged. Run `python dev/preview.py`, then open
-**http://127.0.0.1:8000/review/** to switch between original and refined pages.
-The comparison uses the same browser viewport; the original contact page is
-the custom form from the previous project, not the live Google-link page.
+Hosted on GitHub Pages. The `main` branch deploys automatically.
 
-The refined pages are `/index.html` and `/contact.html`; the original pages are
-`/original/index.html` and `/original/contact.html`. The review route exists only
-in the local development server. Stop it with Ctrl+C.
+## Files
 
-See [the design handoff](docs/design-refinements-handoff.md) for the design
-decisions, screenshots, complete changed-file list and verification results.
-Screenshots for all requested widths are in ignored `test-results/design/`.
-
-## Contact form preview
-
-The custom form was introduced on `feature/contact-form-preview`. The current
-unpublished version now uses the owner-provided Formspree endpoint
-`https://formspree.io/f/mnppdeaj` with `mode: "live"`. Submitting the local form
-will send a real inquiry to Formspree. On October 28, 2026, the owner confirmed
-a fresh local-preview submission reached both Jordan and Marlena through their
-Zoho distribution list. The owner also confirmed setting the production domain
-restriction to `tribsolutions.com`. The homepage contact buttons now open the
-custom form; the Google contact form remains available as a contact-page fallback.
-These changes are still unpublished.
-
-From PowerShell in this repository:
-
-```powershell
-python dev/preview.py
+```
+index.html          Homepage
+contact.html        Contact page
+assets/
+  styles.css        All site CSS
+  logo.png          Tributary Solutions logo
+  favicon.png       Browser tab icon
+  jordan.jpg        Jordan Lanini portrait
+  marlena.jpg       Marlena Lanini portrait
+  hank.jpg          Hank (Office Dog) photo
+CNAME               Custom domain configuration for GitHub Pages
 ```
 
-Open **http://localhost:8000/contact.html**. It now shows **Send inquiry**.
-For simulations, change `mode` to `"demo"` in `assets/contact-config.js` and
-reload; choose a simulated result and select **Test inquiry**. Restore
-`"live"` before an approved deployment. The production-domain restriction now
-means real localhost submissions can be filtered as spam. Stop with **Ctrl+C**. If that port
-is busy, run `python dev/preview.py --port 8001` and open the matching port.
+## Making changes
 
-The server binds only to this computer, serves only site files, and does not
-receive inquiry submissions. A feature branch does **not** create a separate
-GitHub Pages preview URL.
+Edit HTML or CSS directly, then commit and push to `main`. GitHub Pages
+redeploys automatically — usually live within 60 seconds.
 
-See [the review and handoff](docs/contact-form-handoff.md) for manual tests,
-security review, Formspree/Zoho setup, deployment and rollback instructions.
-The latest [Formspree integration notes](docs/formspree-integration.md) record
-the configured endpoint, current mode, testing and remaining dashboard work.
-**Do not merge, push, publish, or replace the Google Form without approval.**
+## Google Form link
 
-## Files and design
+The contact buttons link to a Google Form. To update the URL, search for
+`forms.gle` in `index.html` and `contact.html`. Each occurrence has a
+comment marking it:
 
-| Path | Purpose |
-| --- | --- |
-| `index.html` | Refined homepage; both contact buttons open the custom contact page |
-| `contact.html` | Custom form and Google fallback |
-| `assets/styles.css` | Shared site styles, navigation and accessibility |
-| `assets/contact.css` | Responsive form, focus and error styles |
-| `assets/contact-config.js` | Public demo/live mode and Formspree endpoint |
-| `assets/contact.js` | Validation, demo and submission handling |
-| `assets/` | Existing logo, favicon, photos and placeholders |
-| `CNAME` | Existing Pages custom domain, unchanged |
-| `dev/preview.py` | Python standard-library HTTP preview |
-| `dev/review.html` | Local-only before/after switching view |
-| `dev/optimize_images.py` | Recreates WebP variants with development-only Pillow |
-| `tests/test_contact.py` | Headless browser regression checks |
-| `tests/test_design.py` | Design/content regression checks and matching screenshots |
-
-Branding uses Montserrat, navy `#071330`, midnight blue `#0c4160`, blue-gray
-`#738fa7`, and misty blue `#c3ceda`. Shared variables remain in
-`assets/styles.css`. Photo crops use `.photo-jordan`, `.photo-marlena`, and
-`.photo-hank` in that file.
-
-## Automated checks
-
-With Python Playwright available:
-
-```powershell
-python -m unittest discover -s tests -v
-node --check assets/contact.js
-node --check assets/contact-config.js
+```
+<!-- Google Form contact link — replace this URL if the form address changes -->
 ```
 
-Playwright is a development-only tool, already installed here. The site has no
-JavaScript package dependencies. On another machine, run
-`python -m pip install playwright`. The tests use installed Edge/Chrome on
-Windows; otherwise run `python -m playwright install chromium` or set
-`BROWSER_EXECUTABLE` to an installed Chromium browser executable.
+## Photo crop / face centering
 
-Tests start/stop their own loopback server and intercept all Formspree requests.
-They explicitly select demo mode for simulations/design screenshots and separately
-test the saved live configuration against a mocked endpoint. They never send real
-messages. The existing Google Fonts hosts must be reachable
-for the strict visual/console check. Screenshots go in ignored `test-results/`.
+Face position in profile photos is controlled by `object-position` in
+`assets/styles.css`. Look for `.photo-jordan`, `.photo-marlena`, and
+`.photo-hank` and adjust the percentage values (higher Y% moves the crop
+window down).
 
-The original JPG photographs are preserved. Responsive WebP variants are
-selected by the page and CSS; the portraits use JPG fallback sources and lazy
-loading. To regenerate variants, use `python dev/optimize_images.py` with Pillow
-installed. Pillow is not required to serve the site.
+
+## Contact button
+
+The homepage button links to `contact.html`. The contact page includes a placeholder button. Replace `href="#"` in `contact.html` with a Google Form link if you want a no-email contact workflow.
+
+## Colors
+
+The exact Google Sites theme variables are not exposed cleanly in the public text view. The main theme colors are defined at the top of `assets/styles.css` so they can be changed quickly:
+
+```css
+--accent: #2f6652;
+--accent-dark: #21493a;
+--accent-soft: #edf4f0;
+```

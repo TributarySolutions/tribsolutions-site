@@ -10,7 +10,3 @@ desktop.ini
 
 # VS Code
 .vscode/
-
-# Local preview / test output
-__pycache__/
-test-results/
