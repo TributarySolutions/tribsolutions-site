@@ -49,6 +49,8 @@ class ContactTests(unittest.TestCase):
         # Never contact the real backend, even if someone later changes public config.
         self.context.route("https://formspree.io/**", lambda route: route.abort())
         self.page = self.context.new_page()
+        # Exercise simulations explicitly even when the saved configuration is live.
+        self.configure(mode="demo", endpoint="https://formspree.io/f/mnppdeaj")
         self.errors = []
         self.page.on("pageerror", lambda error: self.errors.append(str(error)))
 
@@ -109,6 +111,20 @@ class ContactTests(unittest.TestCase):
         self.assertFalse([r for r in requests if r.method != "GET"], "Demo must never send a request containing form data")
         self.assertEqual(self.page.evaluate("Object.keys(localStorage).length + Object.keys(sessionStorage).length"), 0)
 
+    def test_saved_formspree_configuration_with_intercepted_submission(self):
+        # Load the real public configuration, but intercept the entire backend call.
+        self.page.unroute("**/assets/contact-config.js")
+        self.mock(body={"next": "https://formspree.io/thanks"})
+        self.open()
+        expect(self.page.locator("#contact-form")).to_have_attribute("action", "https://formspree.io/f/mnppdeaj")
+        expect(self.page.locator("#demo-panel")).to_be_hidden()
+        expect(self.page.locator("#submit-inquiry")).to_have_text("Send inquiry")
+        self.fill()
+        self.page.locator("#submit-inquiry").click()
+        expect(self.page.locator("#form-status")).to_contain_text("Your inquiry has been submitted")
+        self.assertEqual(len(self.posts), 1)
+        self.assertEqual(self.posts[0].url, "https://formspree.io/f/mnppdeaj")
+
     def test_required_whitespace_email_and_error_recovery(self):
         self.open()
         self.page.locator("#submit-inquiry").click()
@@ -165,6 +181,10 @@ class ContactTests(unittest.TestCase):
             (500, {}, "application/json", "could not be submitted"),
             (200, "<html>CAPTCHA</html>", "text/html", "couldn’t confirm"),
             (200, {"ok": False}, "application/json", "couldn’t confirm"),
+            (200, {"next": 123}, "application/json", "couldn’t confirm"),
+            (200, {"ok": False, "next": "/thanks"}, "application/json", "couldn’t confirm"),
+            (200, {"error": "Rejected", "next": "/thanks"}, "application/json", "couldn’t confirm"),
+            (200, [], "application/json", "couldn’t confirm"),
         ]:
             with self.subTest(status=code, body=body):
                 self.configure()

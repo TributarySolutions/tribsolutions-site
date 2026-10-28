@@ -46,6 +46,10 @@ class DesignTests(unittest.TestCase):
         self.context = self.browser.new_context(viewport={"width": 1440, "height": 1000}, reduced_motion="reduce")
         self.context.route("https://formspree.io/**", lambda route: route.abort())
         self.page = self.context.new_page()
+        # Design comparisons keep the preserved demo UI; real delivery is not tested.
+        self.page.route("**/assets/contact-config.js", lambda route: route.fulfill(
+            content_type="application/javascript",
+            body='window.CONTACT_FORM_CONFIG={mode:"demo",endpoint:"https://formspree.io/f/mnppdeaj"};'))
         self.errors = []
         self.page.on("pageerror", lambda error: self.errors.append(str(error)))
         self.page.on("console", lambda message: self.errors.append(message.text) if message.type == "error" else None)
@@ -116,7 +120,7 @@ class DesignTests(unittest.TestCase):
                 expect(self.page.locator("#submit-inquiry")).to_be_enabled()
             current = [" ".join(self.page.locator(s).inner_text().split()) for s in selectors]
             self.assertEqual(original, current)
-        for file in ("assets/contact.js", "assets/contact-config.js", "CNAME", "assets/logo.png",
+        for file in ("CNAME", "assets/logo.png",
                      "assets/jordan.jpg", "assets/marlena.jpg", "assets/hank.jpg", "assets/banner_photo.jpg"):
             original = subprocess.run(["git", "show", f"849d113:{file}"], cwd=ROOT, check=True, capture_output=True).stdout
             self.assertEqual((ROOT / file).read_bytes().replace(b"\r\n", b"\n") if file.endswith((".js", "CNAME")) else (ROOT / file).read_bytes(),

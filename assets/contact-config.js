@@ -1,6 +1,7 @@
 // Public configuration only. Never put email addresses, credentials, or tokens here.
-// Keep demo mode until real delivery has been tested and deployment is approved.
+// "live" enables Formspree in this unpublished version; "demo" simulates locally.
+// Confirm actual delivery to Zoho and obtain release approval before publishing.
 window.CONTACT_FORM_CONFIG = Object.freeze({
-  mode: "demo", // "demo" or "live". A blank endpoint always uses demo mode.
-  endpoint: "" // After setup: https://formspree.io/f/YOUR_FORM_ID
+  mode: "live", // Change to "demo" for success/failure simulations without sending.
+  endpoint: "https://formspree.io/f/mnppdeaj" // Public endpoint identifier, not a secret.
 });

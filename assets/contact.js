@@ -99,7 +99,12 @@
         // Do not render untrusted server text or automatically retry an uncertain request.
         if (!response.ok) throw new Error(response.status === 429 ? "rate-limit" : "server");
         const result = await response.json();
-        if (result.ok !== true) throw new Error("unconfirmed");
+        // Formspree's current API confirms success with a string `next` field.
+        // Accept the earlier `ok: true` shape too, but never a conflicting error.
+        const confirmed = result && typeof result === "object" && !Array.isArray(result) &&
+          !("error" in result) && !("errors" in result) && result.ok !== false &&
+          (result.ok === true || (typeof result.next === "string" && result.next.length > 0));
+        if (!confirmed) throw new Error("unconfirmed");
       }
       completed = true;
       announce(demo ? "Demo successful. No message was sent. Start a new test to try again." :

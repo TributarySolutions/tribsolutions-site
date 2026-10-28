@@ -26,10 +26,11 @@ Screenshots for all requested widths are in ignored `test-results/design/`.
 
 ## Contact form preview
 
-The custom form was introduced on `feature/contact-form-preview`. It defaults to
-**Demo/Test Mode**, with no endpoint configured. No build, package installation,
-or account is needed for the demo. The existing Google contact form remains
-available.
+The custom form was introduced on `feature/contact-form-preview`. The current
+unpublished version now uses the owner-provided Formspree endpoint
+`https://formspree.io/f/mnppdeaj` with `mode: "live"`. Submitting the local form
+will send a real inquiry to Formspree. Zoho receipt and dashboard settings still
+need verification. The existing Google contact form remains available.
 
 From PowerShell in this repository:
 
@@ -37,8 +38,10 @@ From PowerShell in this repository:
 python dev/preview.py
 ```
 
-Open **http://127.0.0.1:8000/contact.html**. Enter sample information, choose a
-simulated result, and select **Test inquiry**. Stop with **Ctrl+C**. If that port
+Open **http://localhost:8000/contact.html**. It now shows **Send inquiry**.
+For simulations, change `mode` to `"demo"` in `assets/contact-config.js` and
+reload; choose a simulated result and select **Test inquiry**. Return to
+`"live"` when ready for an authorized real delivery test. Stop with **Ctrl+C**. If that port
 is busy, run `python dev/preview.py --port 8001` and open the matching port.
 
 The server binds only to this computer, serves only site files, and does not
@@ -47,6 +50,8 @@ GitHub Pages preview URL.
 
 See [the review and handoff](docs/contact-form-handoff.md) for manual tests,
 security review, Formspree/Zoho setup, deployment and rollback instructions.
+The latest [Formspree integration notes](docs/formspree-integration.md) record
+the configured endpoint, current mode, testing and remaining dashboard work.
 **Do not merge, push, publish, or replace the Google Form without approval.**
 
 ## Files and design
@@ -89,7 +94,9 @@ Windows; otherwise run `python -m playwright install chromium` or set
 `BROWSER_EXECUTABLE` to an installed Chromium browser executable.
 
 Tests start/stop their own loopback server and intercept all Formspree requests.
-They never send real messages. The existing Google Fonts hosts must be reachable
+They explicitly select demo mode for simulations/design screenshots and separately
+test the saved live configuration against a mocked endpoint. They never send real
+messages. The existing Google Fonts hosts must be reachable
 for the strict visual/console check. Screenshots go in ignored `test-results/`.
 
 The original JPG photographs are preserved. Responsive WebP variants are
