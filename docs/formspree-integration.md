@@ -64,6 +64,12 @@ is now verified through owner reports. The agent has not independently inspected
 the inboxes or account settings. No production-domain submission has been tested,
 and no deployment has been authorized or performed.
 
+The owner subsequently reported completing the project's production domain
+restriction with `tribsolutions.com`, following the provided setup instructions.
+This is recorded as owner-configured, not independently inspected or tested
+from the production origin. Localhost is now outside the permitted domain and
+real local submissions can be routed to Formspree's spam inbox.
+
 ## Dashboard and real delivery checklist
 
 The local delivery test succeeded as reported above. Complete or confirm these
@@ -77,27 +83,50 @@ remaining account checks before production:
    AJAX form has no CAPTCHA token. A form requiring a CAPTCHA challenge needs
    matching backend-verified integration before use; do not assume the
    dashboard's CAPTCHA setting works with this code unchanged.
-3. Use a dedicated test project's domain restriction for `localhost` if the
-   dashboard accepts it, and open `http://localhost:8000/contact.html`. Do not
-   loosen an existing production project's restrictions. For production set
-   the authorized domain to `tribsolutions.com` (without protocol or www),
-   which Formspree documents as covering subdomains too. Referrer suppression
-   can cause filtering despite a successful client response.
-4. If localhost is not accepted, request approval for an HTTPS staging origin
-   before publishing one. No public preview has been created.
+3. **Production domain configured by the owner:** `tribsolutions.com`, without
+   protocol or www, which Formspree documents as covering subdomains too.
+   Preserve that restriction. Referrer suppression can cause filtering despite
+   a successful client response. Further local simulations should use demo
+   mode or the intercepted test suite, not loosen the production restriction.
+4. After an explicitly approved deployment, verify one approved real submission
+   from the production origin and its receipt in both inboxes. No public
+   staging site has been created.
 
 Start the preview from the repository with `python dev/preview.py`. The local
 form is now in **live mode**: its Send inquiry button performs a real external
-submission. When explicitly authorized to test delivery, send one fictional,
-clearly labeled inquiry with a timestamp and a reply address you control.
-Verify Formspree's dashboard/spam inbox, then actual receipt in the intended
-Zoho inbox(es), all fields and Reply-To behavior. A client success message
-only establishes backend acceptance; it does not establish email receipt.
+submission. Use demo mode for further local simulations now that the production
+domain is restricted. After an approved deployment and authorization to test
+delivery, send one fictional, clearly labeled inquiry from the production page
+with a timestamp and a reply address you control. Verify Formspree's dashboard/
+spam inbox, then actual receipt in both Zoho inboxes, all fields and Reply-To.
+A client success message only establishes backend acceptance; it does not
+establish email receipt.
 
 The earlier contact and design handoffs describe the earlier demo-only state.
 These integration notes supersede their empty-endpoint/default-demo statements.
-Production, DNS, Google Form links and the approved design are unchanged.
-Publishing still requires explicit approval after successful delivery checks.
+The final release preparation changes the homepage's two contact buttons to
+`contact.html`. The existing Google Form URL stays available as the contact-page
+fallback. The approved design, live production site and DNS are unchanged.
+Publishing still requires explicit approval.
+
+## Concrete release awaiting approval
+
+The feature branch contains the approved design refinements, responsive image
+variants, live Formspree configuration and the homepage contact-button change.
+Both intended inboxes received a local test before the production restriction
+was set. No merge, push or production deployment is authorized yet.
+
+Final release-preparation verification on October 28, 2026: all 17 browser
+tests passed again, both JavaScript syntax checks passed, and a separate browser
+check confirmed that each homepage contact button opens the configured contact
+page with its Google fallback present. These checks did not send real inquiries.
+
+After explicit approval, use the existing main/GitHub Pages release path,
+retaining CNAME and DNS/mail settings. Check HTTPS, navigation, image loading
+and the production contact page, then coordinate a real production-origin
+delivery test. A new revert of the recorded release commit(s) restores the
+previous production version if required; do not reset/force-push main. The
+previous production baseline remains `6ad3d2c`.
 
 ## Official sources
 

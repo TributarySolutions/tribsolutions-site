@@ -31,8 +31,10 @@ unpublished version now uses the owner-provided Formspree endpoint
 `https://formspree.io/f/mnppdeaj` with `mode: "live"`. Submitting the local form
 will send a real inquiry to Formspree. On October 28, 2026, the owner confirmed
 a fresh local-preview submission reached both Jordan and Marlena through their
-Zoho distribution list. Production-domain settings still need confirmation.
-The existing Google contact form remains available.
+Zoho distribution list. The owner also confirmed setting the production domain
+restriction to `tribsolutions.com`. The homepage contact buttons now open the
+custom form; the Google contact form remains available as a contact-page fallback.
+These changes are still unpublished.
 
 From PowerShell in this repository:
 
@@ -42,8 +44,9 @@ python dev/preview.py
 
 Open **http://localhost:8000/contact.html**. It now shows **Send inquiry**.
 For simulations, change `mode` to `"demo"` in `assets/contact-config.js` and
-reload; choose a simulated result and select **Test inquiry**. Return to
-`"live"` when ready for an authorized real delivery test. Stop with **Ctrl+C**. If that port
+reload; choose a simulated result and select **Test inquiry**. Restore
+`"live"` before an approved deployment. The production-domain restriction now
+means real localhost submissions can be filtered as spam. Stop with **Ctrl+C**. If that port
 is busy, run `python dev/preview.py --port 8001` and open the matching port.
 
 The server binds only to this computer, serves only site files, and does not
@@ -60,7 +63,7 @@ the configured endpoint, current mode, testing and remaining dashboard work.
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Refined homepage; both Google Form destinations unchanged |
+| `index.html` | Refined homepage; both contact buttons open the custom contact page |
 | `contact.html` | Custom form and Google fallback |
 | `assets/styles.css` | Shared site styles, navigation and accessibility |
 | `assets/contact.css` | Responsive form, focus and error styles |
