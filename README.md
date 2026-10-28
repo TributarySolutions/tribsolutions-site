@@ -7,9 +7,26 @@ The repository's production branch is `main`; the original repository
 instructions indicate that pushes to `main` deploy automatically. Treat a
 merge/push to that branch as a production release.
 
+## Design refinement preview
+
+Current work is on `feature/design-refinements`, based on the completed
+contact-form commit `849d113`. Production and the contact-form branch are
+unchanged. Run `python dev/preview.py`, then open
+**http://127.0.0.1:8000/review/** to switch between original and refined pages.
+The comparison uses the same browser viewport; the original contact page is
+the custom form from the previous project, not the live Google-link page.
+
+The refined pages are `/index.html` and `/contact.html`; the original pages are
+`/original/index.html` and `/original/contact.html`. The review route exists only
+in the local development server. Stop it with Ctrl+C.
+
+See [the design handoff](docs/design-refinements-handoff.md) for the design
+decisions, screenshots, complete changed-file list and verification results.
+Screenshots for all requested widths are in ignored `test-results/design/`.
+
 ## Contact form preview
 
-Work is on `feature/contact-form-preview`. The custom form defaults to
+The custom form was introduced on `feature/contact-form-preview`. It defaults to
 **Demo/Test Mode**, with no endpoint configured. No build, package installation,
 or account is needed for the demo. The existing Google contact form remains
 available.
@@ -36,16 +53,19 @@ security review, Formspree/Zoho setup, deployment and rollback instructions.
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Existing homepage; both Google Form buttons unchanged |
+| `index.html` | Refined homepage; both Google Form destinations unchanged |
 | `contact.html` | Custom form and Google fallback |
-| `assets/styles.css` | Existing shared styles, unchanged |
+| `assets/styles.css` | Shared site styles, navigation and accessibility |
 | `assets/contact.css` | Responsive form, focus and error styles |
 | `assets/contact-config.js` | Public demo/live mode and Formspree endpoint |
 | `assets/contact.js` | Validation, demo and submission handling |
 | `assets/` | Existing logo, favicon, photos and placeholders |
 | `CNAME` | Existing Pages custom domain, unchanged |
 | `dev/preview.py` | Python standard-library HTTP preview |
+| `dev/review.html` | Local-only before/after switching view |
+| `dev/optimize_images.py` | Recreates WebP variants with development-only Pillow |
 | `tests/test_contact.py` | Headless browser regression checks |
+| `tests/test_design.py` | Design/content regression checks and matching screenshots |
 
 Branding uses Montserrat, navy `#071330`, midnight blue `#0c4160`, blue-gray
 `#738fa7`, and misty blue `#c3ceda`. Shared variables remain in
@@ -71,3 +91,8 @@ Windows; otherwise run `python -m playwright install chromium` or set
 Tests start/stop their own loopback server and intercept all Formspree requests.
 They never send real messages. The existing Google Fonts hosts must be reachable
 for the strict visual/console check. Screenshots go in ignored `test-results/`.
+
+The original JPG photographs are preserved. Responsive WebP variants are
+selected by the page and CSS; the portraits use JPG fallback sources and lazy
+loading. To regenerate variants, use `python dev/optimize_images.py` with Pillow
+installed. Pillow is not required to serve the site.

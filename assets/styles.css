@@ -20,7 +20,6 @@
   --border:       rgba(12, 65, 96, 0.18);
   --shadow:       0 18px 45px rgba(7, 19, 48, 0.12);
 
-  --max-width: 1100px;
   --radius:    16px;
   --radius-sm: 10px;
 }
@@ -29,6 +28,12 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+section[id], main[id], form[id] { scroll-margin-top: 104px; }
+:focus-visible { outline: 3px solid var(--midnight-blue); outline-offset: 4px; }
+.cta-section :focus-visible { outline-color: var(--misty-blue); }
+.skip-link { position: fixed; top: 12px; left: 16px; z-index: 200; transform: translateY(-200%); background: white; color: var(--midnight-blue); padding: 12px; font-size: 1rem; border-radius: 6px; }
+.skip-link:focus { transform: translateY(0); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 body {
   margin: 0;
@@ -66,16 +71,8 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--blue-gray);
-  margin: 0 0 1.1rem;
-}
-
-.lede {
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
-  font-weight: 600;
   color: var(--midnight-blue);
-  line-height: 1.38;
-  margin-bottom: 1.4rem;
+  margin: 0 0 1.1rem;
 }
 
 /* -- Header -------------------------------------------------- */
@@ -101,6 +98,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .brand-logo {
@@ -124,6 +122,9 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 }
 
 .site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--midnight-blue);
   text-decoration: none;
   font-weight: 600;
@@ -139,20 +140,24 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   color: var(--dark-blue);
   border-bottom-color: var(--midnight-blue);
 }
+.site-nav a[aria-current="page"] { border-bottom-color: var(--midnight-blue); }
 
 /* -- Buttons ------------------------------------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 38px;
+  padding: 14px 28px;
+  min-height: 48px;
+  max-width: 100%;
   border-radius: 999px;
   font-family: inherit;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   text-decoration: none;
   transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s;
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -184,10 +189,11 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 
 /* -- Hero ---------------------------------------------------- */
 .hero {
-  padding: 100px 0 88px;
+  padding: 80px 0 72px;
+  --hero-image: url("banner-1920.webp");
   background:
     linear-gradient(145deg, rgba(234, 240, 247, 0.88) 0%, rgba(216, 230, 242, 0.82) 55%, rgba(195, 215, 232, 0.78) 100%),
-    url("banner_photo.jpg") center center / cover no-repeat;
+    var(--hero-image) center center / cover no-repeat;
   border-bottom: 1px solid rgba(12, 65, 96, 0.12);
 }
 
@@ -195,7 +201,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.7fr);
   gap: clamp(32px, 5vw, 80px);
-  align-items: start;
+  align-items: center;
 }
 
 .hero-text {
@@ -206,7 +212,10 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
+  max-width: 340px;
+  width: 100%;
+  justify-self: end;
 }
 
 .hero-cta {
@@ -215,24 +224,25 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 }
 
 /* "Water Resources Consulting" — styled as a small descriptor */
-.hero-text h1 {
+.hero-text .eyebrow {
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--blue-gray);
+  color: var(--midnight-blue);
   line-height: 1.5;
   margin-bottom: 0.9rem;
 }
 
 /* "Modeling and decision support..." — the big hero statement */
-.hero-text .lede {
-  font-size: clamp(3rem, 7vw, 5.75rem);
+.hero-text h1 {
+  font-size: clamp(2.5rem, 5.4vw, 4.75rem);
   font-weight: 800;
   color: var(--dark-blue);
-  line-height: 1.08;
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
 }
 
 .hero-support {
@@ -240,13 +250,6 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   font-size: clamp(1.1rem, 1.2vw, 1.25rem);
   line-height: 1.72;
   margin-bottom: 0;
-}
-
-.hero-actions {
-  margin-top: 2.25rem;
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
 }
 
 /* Hero logo panel */
@@ -257,7 +260,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   box-shadow:
     0 2px 8px rgba(12, 65, 96, 0.06),
     0 20px 50px rgba(7, 19, 48, 0.14);
-  padding: 36px 30px;
+  padding: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -268,11 +271,12 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   max-height: 260px;
   width: auto;
   max-width: 100%;
+  height: auto;
 }
 
 /* -- Section base -------------------------------------------- */
 .section {
-  padding: 92px 0;
+  padding: 80px 0;
 }
 
 .section-alt {
@@ -280,7 +284,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 }
 
 .section-header {
-  margin-bottom: 52px;
+  margin-bottom: 36px;
   max-width: 780px;
 }
 
@@ -300,7 +304,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 /* -- Service cards ------------------------------------------- */
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
   gap: 1.5rem;
   align-items: stretch;
   list-style: none;
@@ -315,14 +319,8 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   border-radius: var(--radius-sm);
   padding: 28px 26px 30px;
   box-shadow: 0 2px 14px rgba(12, 65, 96, 0.07);
-  transition: transform 0.15s, box-shadow 0.15s;
   display: flex;
   flex-direction: column;
-}
-
-.service-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(12, 65, 96, 0.13);
 }
 
 .service-card h3 {
@@ -345,6 +343,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 .principal-grid {
   display: grid;
   grid-template-columns: 1fr;
+  grid-auto-rows: 1fr;
   gap: 32px;
 }
 
@@ -359,9 +358,18 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   overflow: hidden;
 }
 
-.profile-photo {
+.profile-picture {
   width: clamp(220px, 26vw, 320px);
   aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.hank-picture { display: contents; }
+
+.profile-photo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
   flex-shrink: 0;
   align-self: stretch;
@@ -402,6 +410,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   margin: 0;
   color: var(--text-muted);
 }
+.profile-body .role { font-size: 0.88rem; color: var(--midnight-blue); margin: 0 0 12px; }
 
 /* -- Hank ---------------------------------------------------- */
 .hank-section {
@@ -436,7 +445,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   padding-top: 6px;
 }
 
-.hank-body h3 {
+.hank-body h2 {
   font-size: clamp(1.35rem, 1.8vw, 1.75rem);
   margin-bottom: 4px;
 }
@@ -493,12 +502,12 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 /* -- Footer -------------------------------------------------- */
 .site-footer {
   background: var(--dark-blue);
-  padding: 40px 0;
+  padding: 32px 0;
 }
 
 .site-footer p {
   color: var(--misty-blue);
-  font-size: clamp(1.05rem, 1.1vw, 1.15rem);
+  font-size: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
   margin: 0 0 6px;
 }
 
@@ -506,19 +515,29 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
 
 /* -- Responsive ---------------------------------------------- */
 @media (max-width: 800px) {
+  .hero { --hero-image: url("banner-960.webp"); }
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 40px;
   }
 
   .hero-media {
-    max-width: 380px;
+    max-width: 340px;
     width: 100%;
+    justify-self: start;
   }
 
   .hero-text {
     max-width: none;
   }
+}
+
+@media (max-width: 720px) {
+  .brand-name { display: none; }
+  .brand-logo { height: 40px; }
+  .nav-wrap { gap: 12px; }
+  .site-nav { gap: 14px; }
+  .site-nav a { font-size: 0.95rem; }
 }
 
 @media (max-width: 560px) {
@@ -534,8 +553,6 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
     display: none;
   }
 
-  .site-nav { gap: 20px; }
-
   .profile-card {
     flex-direction: column;
   }
@@ -545,6 +562,7 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
     aspect-ratio: 4 / 3;
     max-height: 220px;
   }
+  .profile-picture { width: 100%; height: 220px; }
 
   .hank-card {
     flex-direction: column;
@@ -568,4 +586,16 @@ h3 { font-size: clamp(1.3rem, 1.6vw, 1.65rem); }
   .section { padding: 64px 0; }
   .cta-section { padding: 72px 0; }
   .contact-hero { padding: 64px 0 56px; }
+}
+
+@media (max-width: 360px) {
+  .brand-logo { height: 30px; }
+  .nav-wrap { gap: 8px; }
+  .site-nav { gap: 8px; }
+  .site-nav a { font-size: 0.85rem; letter-spacing: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
 }
