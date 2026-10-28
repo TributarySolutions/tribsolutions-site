@@ -29,8 +29,10 @@ Screenshots for all requested widths are in ignored `test-results/design/`.
 The custom form was introduced on `feature/contact-form-preview`. The current
 unpublished version now uses the owner-provided Formspree endpoint
 `https://formspree.io/f/mnppdeaj` with `mode: "live"`. Submitting the local form
-will send a real inquiry to Formspree. Zoho receipt and dashboard settings still
-need verification. The existing Google contact form remains available.
+will send a real inquiry to Formspree. The owner confirmed receipt of a real
+local-preview test on October 27, 2026. Which recipient(s) received it and the
+production dashboard settings still need confirmation. The existing Google
+contact form remains available.
 
 From PowerShell in this repository:
 

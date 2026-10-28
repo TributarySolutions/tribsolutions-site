@@ -46,12 +46,20 @@ remain independent of the default live configuration.
 Run the full suite with `python -m unittest discover -s tests -v`, then the two
 JavaScript syntax checks in README. All 17 browser tests, both JavaScript
 syntax checks and the whitespace/diff check passed. The running local server
-also returned HTTP 200 for the updated configuration. No real message has been sent by the
-agent, and actual delivery to either intended Zoho recipient is unverified.
+also returned HTTP 200 for the updated configuration. The automated tests did
+not send real messages.
+
+On October 27, 2026, the owner reported successfully receiving an email from
+a real submission through the local contact preview. This confirms the local
+Formspree-to-email path based on the owner's receipt confirmation. The specific
+recipient inbox and delivery to both intended recipients have not yet been
+confirmed. No production-domain submission has been tested, and no deployment
+has been authorized or performed.
 
 ## Dashboard and real delivery checklist
 
-Before sending a real test, verify the following in Formspree:
+The local delivery test succeeded as reported above. Complete or confirm these
+remaining account checks before production:
 
 1. The form is activated and its Email workflow uses a verified company Zoho
    recipient. The owner requested delivery to both principals. Verify which
