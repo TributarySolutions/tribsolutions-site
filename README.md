@@ -3,43 +3,35 @@
 Static HTML/CSS website hosted on GitHub Pages at
 [www.tribsolutions.com](https://www.tribsolutions.com).
 
-The repository's production branch is `main`; the original repository
-instructions indicate that pushes to `main` deploy automatically. Treat a
-merge/push to that branch as a production release.
+The production branch is `main`. GitHub Pages publishes it automatically, so
+**every merge or push to `main` is a production release**. Make changes on a
+branch and merge them through a pull request only with the owner's approval.
+AI tools: read [AGENTS.md](AGENTS.md) first.
 
-## Design refinement preview
+## Current state
 
-Current work is on `feature/design-refinements`, based on the completed
-contact-form commit `849d113`. Release `8b4279f` was deployed, then rolled back
-by `3659651` after a browser-cache formatting failure. Production currently
-serves the original website; this branch contains an unpublished cache-safe
-fix. New deployment approval is required. See the
-[appearance investigation](docs/appearance-investigation.md).
+- **Live since October 28, 2026 (`e6b7e59`):** the refined design, responsive
+  images, cache-safe versioned CSS/JS and the custom contact form. An earlier
+  release, `8b4279f`, was rolled back by `3659651` after a browser-cache
+  formatting failure; `e6b7e59` is the corrected complete release. See the
+  [appearance investigation](docs/appearance-investigation.md).
+- **Contact form:** posts to Formspree in `live` mode. The endpoint and mode
+  are in `assets/contact-config.js`. Formspree accepts submissions only from
+  `tribsolutions.com` and notifies the company inquiries address, which Zoho
+  forwards to both principals. The owner confirmed on November 24, 2026 that
+  a real inquiry from the live site was delivered. The homepage
+  contact buttons open the custom form. The Google Form link stays on the
+  contact page as the fallback the form's error messages point to; do not
+  remove it without the owner's approval.
+- **Internal files are not published:** `_config.yml` excludes `README.md`,
+  `AGENTS.md`, `CLAUDE.md`, `docs/`, `dev/` and `tests/` from the website
+  (released November 24, 2026). Add any new internal file or folder to its
+  `exclude:` list. The repository itself remains public on GitHub.
+- **`docs/`** holds the October 2026 handoff and investigation records. They
+  describe the work as it stood before release; this README is the current
+  summary.
 
-Run `python dev/preview.py`, then open
-**http://127.0.0.1:8000/review/** to switch between original and refined pages.
-The comparison uses the same browser viewport; the original contact page is
-the custom form from the previous project, not the live Google-link page.
-
-The refined pages are `/index.html` and `/contact.html`; the original pages are
-`/original/index.html` and `/original/contact.html`. The review route exists only
-in the local development server. Stop it with Ctrl+C.
-
-See [the design handoff](docs/design-refinements-handoff.md) for the design
-decisions, screenshots, complete changed-file list and verification results.
-Screenshots for all requested widths are in ignored `test-results/design/`.
-
-## Contact form preview
-
-The custom form was introduced on `feature/contact-form-preview`. The current
-unpublished version now uses the owner-provided Formspree endpoint
-`https://formspree.io/f/mnppdeaj` with `mode: "live"`. Submitting the local form
-will send a real inquiry to Formspree. On October 28, 2026, the owner confirmed
-a fresh local-preview submission reached both Jordan and Marlena through their
-Zoho distribution list. The owner also confirmed setting the production domain
-restriction to `tribsolutions.com`. The homepage contact buttons now open the
-custom form; the Google contact form remains available as a contact-page fallback.
-These changes are still unpublished.
+## Local preview
 
 From PowerShell in this repository:
 
@@ -47,22 +39,42 @@ From PowerShell in this repository:
 python dev/preview.py
 ```
 
-Open **http://localhost:8000/contact.html**. It now shows **Send inquiry**.
-For simulations, change `mode` to `"demo"` in `assets/contact-config.js` and
-reload; choose a simulated result and select **Test inquiry**. Restore
-`"live"` before an approved deployment. The production-domain restriction now
-means real localhost submissions can be filtered as spam. Stop with **Ctrl+C**. If that port
-is busy, run `python dev/preview.py --port 8001` and open the matching port.
+Open **http://localhost:8000/**. Stop with **Ctrl+C**. If that port is busy,
+run `python dev/preview.py --port 8001` and open the matching port. The server
+binds only to this computer, serves only site files, and does not receive
+inquiry submissions. It ignores `_config.yml`, so excluded files still appear
+locally. A branch does **not** create a GitHub Pages preview URL.
 
-The server binds only to this computer, serves only site files, and does not
-receive inquiry submissions. A feature branch does **not** create a separate
-GitHub Pages preview URL.
+**The local contact form is in `live` mode: submitting it sends a real
+inquiry** (which the domain restriction may also filter as spam). For trials,
+change `mode` to `"demo"` in `assets/contact-config.js`, reload, choose a
+simulated result and select **Test inquiry**. Restore `"live"` before
+committing.
 
-See [the review and handoff](docs/contact-form-handoff.md) for manual tests,
-security review, Formspree/Zoho setup, deployment and rollback instructions.
-The latest [Formspree integration notes](docs/formspree-integration.md) record
-the configured endpoint, current mode, testing and remaining dashboard work.
-**Do not merge, push, publish, or replace the Google Form without approval.**
+**http://localhost:8000/review/** switches between the refined pages and the
+pre-redesign originals (`/original/index.html` and `/original/contact.html`,
+served from commit `849d113`). This route exists only on the local server. See
+[the design handoff](docs/design-refinements-handoff.md) for the design
+decisions.
+
+## Releasing and rolling back
+
+1. Work on a branch; run the [automated checks](#automated-checks) and
+   preview locally.
+2. Open a pull request to `main`. The owner reviews it, including a
+   returning-visitor (cached browser) check for CSS/JS changes, and merges it.
+3. Confirm Pages built the merge commit:
+   `gh api repos/TributarySolutions/tribsolutions-site/pages/builds/latest --jq "{status, commit, created_at}"`.
+   Then check the live pages.
+4. To roll back, revert the release or merge commit (`git revert -m 1 <merge-sha>`
+   for a merge) in a new pull request. Never reset or force-push `main`. Keep
+   published hashed CSS/JS snapshots and their images so cached older pages
+   still find matching files.
+
+Preserve `CNAME`, `_config.yml`, and the DNS and mail settings. Form setup,
+security review and the original manual tests are in
+[the contact handoff](docs/contact-form-handoff.md) and the
+[Formspree notes](docs/formspree-integration.md).
 
 ## Files and design
 
@@ -77,7 +89,10 @@ the configured endpoint, current mode, testing and remaining dashboard work.
 | `assets/contact-config.js` | Public demo/live mode and Formspree endpoint |
 | `assets/contact.js` | Validation, demo and submission handling |
 | `assets/` | Existing logo, favicon, photos and placeholders |
-| `CNAME` | Existing Pages custom domain, unchanged |
+| `CNAME` | Pages custom domain |
+| `_config.yml` | Jekyll `exclude:` list that keeps internal files off the website |
+| `AGENTS.md`, `CLAUDE.md` | Instructions for AI tools (not published on the website) |
+| `docs/` | October 2026 handoff and investigation records |
 | `dev/preview.py` | Python standard-library HTTP preview |
 | `dev/review.html` | Local-only before/after switching view |
 | `dev/optimize_images.py` | Recreates WebP variants with development-only Pillow |

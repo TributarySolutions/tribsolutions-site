@@ -1,5 +1,11 @@
 # Formspree integration
 
+> **Historical record.** The connected form went live on October 28, 2026
+> (`e6b7e59`), and delivery of a real inquiry from the live site was
+> confirmed on November 24, 2026. Statements below that the release is
+> unpublished or awaiting approval are out of date. See the
+> [README](../README.md) for the current state.
+
 **Current release status, October 28, 2026:** the approved release `8b4279f`
 was published and subsequently rolled back by `3659651` after a formatting
 failure affecting returning visitors. Production serves the original website.
