@@ -1,5 +1,10 @@
 # Design refinements — review handoff
 
+> **Historical record.** The design described here went live on October 28,
+> 2026 (`e6b7e59`). Statements below that it is unpublished or awaiting
+> approval are out of date. See the [README](../README.md) for the current
+> state.
+
 October 27, 2026. Work is on `feature/design-refinements`, based on the completed
 contact-form project (`849d113`). The working tree was clean before starting.
 The contact-form branch and production main have not been moved. No push,

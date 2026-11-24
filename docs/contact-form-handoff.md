@@ -1,5 +1,11 @@
 # Contact form review and handoff
 
+> **Historical record.** This handoff describes the form before release. The
+> custom form went live on October 28, 2026 (`e6b7e59`), and delivery of a
+> real inquiry from the live site was confirmed on November 24, 2026.
+> Statements below that it is unpublished, in demo mode or awaiting approval
+> are out of date. See the [README](../README.md) for the current state.
+
 Reviewed and tested October 27, 2026 (America/Denver).
 
 ## Current state

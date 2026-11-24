@@ -1,5 +1,10 @@
 # Appearance failure investigation
 
+> **Historical record.** The cache-safe fix described here was released to
+> production on October 28, 2026 (`e6b7e59`). Statements below that it is
+> unpublished or awaiting approval are out of date. See the
+> [README](../README.md) for the current state.
+
 Investigated October 28, 2026, after the owner reported incorrect text sizes
 and severely cut-off portraits in Chrome on Windows. Release `8b4279f` was
 rolled back by `3659651`; production remains on the original website. All
