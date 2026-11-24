@@ -1,0 +1,8 @@
+# Keep internal files off the public website (GitHub Pages builds with Jekyll).
+exclude:
+  - README.md
+  - AGENTS.md
+  - CLAUDE.md
+  - docs/
+  - dev/
+  - tests/
