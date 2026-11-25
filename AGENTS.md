@@ -18,3 +18,12 @@ Do not change without the owner's approval:
 
 This repository and the site are public. Never add credentials, internal notes or personal contact details.
 Company conventions and project notes: Tributary AI library, `Projects/Website/README.md` (not in this repo).
+
+## Output hygiene (Tributary standard)
+
+- Use Git for version control. Edit in place on a branch. Never create version copies such as `_v2`, `_old`, `_new`, `_final`, `_backup`, or dated copies.
+- This site has no local build folder. Write generated test and investigation output to the gitignored `test-results/` and overwrite it on reruns. Use timestamped run folders only for workflows that require an audit trail, and document any such exception here.
+- Generated WebP variants and content-hashed CSS/JS snapshots in `assets/` are published assets. Keep previously published snapshots available for visitors with cached HTML, following the rules above.
+- Put one-off scripts, inspection dumps, and temporary test files in the gitignored `scratch/`. Delete the scratch files you created before ending the session unless asked to keep them. Keep `scratch/` and other internal paths out of the public site through `_config.yml`'s `exclude` list.
+- Report task status and results in chat. Update existing docs in place and create a new document only when asked.
+- Before ending, run `git status` and list every new untracked file you created, with its intended disposition (commit, ignore, or delete).

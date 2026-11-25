@@ -6,3 +6,4 @@ exclude:
   - docs/
   - dev/
   - tests/
+  - scratch/

@@ -14,3 +14,6 @@ desktop.ini
 # Local preview / test output
 __pycache__/
 test-results/
+
+# Local scratch files
+/scratch/
